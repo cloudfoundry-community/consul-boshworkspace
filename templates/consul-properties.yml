@@ -15,7 +15,9 @@ compilation:
 meta:
   environment: (( merge ))
   stemcell: (( merge ))
-  availability_zones: (( merge ))
+  availability_zones:
+    con1: ~
+  subnet_ids: (( merge ))
 
 name: (( meta.environment ))
 
@@ -34,3 +36,4 @@ resource_pools:
     cloud_properties:
       instance_type: m1.small
       availability_zone: (( meta.availability_zones.con1 ))
+      net_id: (( meta.subnet_ids.con1 ))

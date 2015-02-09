@@ -2,7 +2,10 @@ meta:
   ipmask: (( merge ))
   security_groups: (( merge ))
   subnet_ids: (( merge ))
-  availability_zones: (( merge ))
+  availability_zones:
+    con1: ~
+  dns_servers: (( merge ))
+  cf1_quad: (( merge ))
 
 networks:
   - name: con1
@@ -11,13 +14,13 @@ networks:
           availability_zone: (( meta.availability_zones.con1 ))
           security_groups: (( meta.security_groups ))
           subnet: (( meta.subnet_ids.con1 ))
-        dns:
-          - (( meta.ipmask ".0.2" ))
-        gateway: (( meta.ipmask ".4.1" ))
+          net_id: (( meta.subnet_ids.con1 ))
+        dns: (( meta.dns_servers ))
+        gateway: (( meta.ipmask meta.cf1_quad ".1" ))
         name: default_unused
-        range: (( meta.ipmask ".4.0/24" ))
+        range: (( meta.ipmask meta.cf1_quad ".0/24" ))
         reserved:
-          - (( meta.ipmask ".4.2 - " meta.ipmask ".4.5" ))
+          - (( meta.ipmask meta.cf1_quad ".2 - " meta.ipmask meta.cf1_quad ".5" ))
         static:
-          - (( meta.ipmask ".4.10 - " meta.ipmask ".4.30" ))
+          - (( meta.ipmask meta.cf1_quad ".80 - " meta.ipmask meta.cf1_quad ".90" ))
     

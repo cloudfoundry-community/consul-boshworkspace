@@ -1,6 +1,8 @@
+networks: (( merge ))
+
 meta:
-  availability_zones: (( merge ))
   ipmask: (( merge ))
+  cf1_quad: (( merge ))
 
   consul_templates:
     - name: vm-consul
@@ -14,10 +16,11 @@ jobs:
     persistent_disk: 4096
     networks:
       - name: con1
+        static_ips: (( static_ips(0) ))
     properties:
       consul:
         cluster:
-          join_host: (( meta.ipmask ".4.6" ))
+          join_host: (( meta.ipmask meta.cf1_quad ".80" ))
           size: 3
       network: con1
     resource_pool: small_z1
@@ -27,14 +30,15 @@ jobs:
     instances: 2
     networks:
       - name: con1
+        static_ips: (( static_ips(1,2) ))
     persistent_disk: 4096
     properties:
       consul:
         cluster:
           join_hosts: 
-          - (( meta.ipmask ".4.6" ))
-          - (( meta.ipmask ".4.7" ))
-          - (( meta.ipmask ".4.8" ))
+          - (( meta.ipmask meta.cf1_quad ".80" ))
+          - (( meta.ipmask meta.cf1_quad ".81" ))
+          - (( meta.ipmask meta.cf1_quad ".82" ))
           size: 3
       network: con1
     resource_pool: small_z1
