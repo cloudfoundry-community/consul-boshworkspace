@@ -1,0 +1,29 @@
+---
+name: consul-openstack
+director_uuid: DIRECTOR_UUID
+
+releases:
+  - name: consul
+    version: 12
+    git: https://github.com/cloudfoundry-community/consul-boshrelease.git
+
+stemcells:
+- name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+  version: 2859
+
+templates:
+  - consul-properties.yml
+  - consul-jobs.yml
+  - consul-networks.yml
+
+meta:
+  security_groups: [ "CONSUL_SG" ]
+
+  ipmask: "IPMASK"
+  environment: consul-openstack
+  consul:
+    size: SIZE
+  subnet_ids:
+    con1: CONSUL_SUBNET
+  availability_zones:
+    con1: ~

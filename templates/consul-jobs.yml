@@ -28,8 +28,5 @@ jobs:
 properties:
   consul:
     cluster:
-      join_hosts:
-      - (( meta.ipmask ".4.6" ))
-      - (( meta.ipmask ".4.7" ))
-      - (( meta.ipmask ".4.8" ))
+      join_hosts: jobs.consul_z1.networks.con1.static_ips
       size: (( meta.consul.size ))
