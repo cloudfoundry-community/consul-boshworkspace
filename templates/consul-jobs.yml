@@ -1,6 +1,10 @@
+networks: (( merge ))
+
 meta:
   availability_zones: (( merge ))
   ipmask: (( merge ))
+  consul:
+    size: (( merge ))
 
   consul_templates:
     - name: vm-consul
@@ -9,33 +13,23 @@ meta:
       release: consul
 
 jobs:
-  - name: consul_leader_z1
-    instances: 1
-    persistent_disk: 4096
+  - name: consul_z1
+    instances: (( meta.consul.size ))
     networks:
       - name: con1
+        static_ips: (( static_ips(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) ))
+    persistent_disk: 4096
     properties:
-      consul:
-        cluster:
-          join_host: (( meta.ipmask ".4.6" ))
-          size: 3
-      network: con1
+      networks:
+        apps: con1
     resource_pool: small_z1
     templates: (( meta.consul_templates ))
 
-  - name: consul_followers_z1
-    instances: 2
-    networks:
-      - name: con1
-    persistent_disk: 4096
-    properties:
-      consul:
-        cluster:
-          join_hosts: 
-          - (( meta.ipmask ".4.6" ))
-          - (( meta.ipmask ".4.7" ))
-          - (( meta.ipmask ".4.8" ))
-          size: 3
-      network: con1
-    resource_pool: small_z1
-    templates: (( meta.consul_templates ))
+properties:
+  consul:
+    cluster:
+      join_hosts:
+      - (( meta.ipmask ".4.6" ))
+      - (( meta.ipmask ".4.7" ))
+      - (( meta.ipmask ".4.8" ))
+      size: (( meta.consul.size ))

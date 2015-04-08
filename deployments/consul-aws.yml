@@ -4,12 +4,12 @@ director_uuid: DIRECTOR_UUID
 
 releases:
   - name: consul
-    version: 10
+    version: 12
     git: https://github.com/cloudfoundry-community/consul-boshrelease.git
 
 stemcells:
-  - name: aws-xen-ubuntu-trusty-go_agent
-    version: 2827
+  - name: bosh-aws-xen-ubuntu-trusty-go_agent
+    version: 2859
 
 templates:
   - consul-properties.yml
@@ -20,7 +20,9 @@ meta:
   security_group: CONSUL_SG
   ipmask: "IPMASK"
   environment: consul-aws
-  subnet_ids: 
+  consul:
+    size: SIZE
+  subnet_ids:
     con1: CONSUL_SUBNET
-  availability_zones: 
+  availability_zones:
     con1: CONSUL_ZONE
