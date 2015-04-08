@@ -11,6 +11,7 @@ networks:
           availability_zone: (( meta.availability_zones.con1 ))
           security_groups: (( meta.security_groups ))
           subnet: (( meta.subnet_ids.con1 ))
+          net_id: (( meta.subnet_ids.con1 ))
         dns:
           - (( meta.ipmask ".0.2" ))
         gateway: (( meta.ipmask ".4.1" ))
